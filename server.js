@@ -4,7 +4,10 @@ var mc = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
+
 
 var db = mongoose.connect('mongodb://marcie:marcie@ds143737.mlab.com:43737/apipractice', null, function(err) {
 	if (err) {
@@ -24,14 +27,14 @@ var teacherSchema = new Schema({
   email: String
 });
 
-var Teacher = db.model('Teachers', teacherSchema);
+var Teachers = db.model('Teachers', teacherSchema);
 
 var studentSchema = new Schema({
   name: String, 
   email: String
 });
 
-var Student = db.model('Student', studentSchema);
+var Students = db.model('Students', studentSchema);
 
 var classSchema = new Schema({
   name: String, 
@@ -40,21 +43,26 @@ var classSchema = new Schema({
 
 var Classes = db.model('Classes', classSchema);
 
-var teacher1 = new Teacher({
+var teacher1 = new Teachers({
   name: "Billy",
   email: "billy@goat.com"
 });
 
+app.get('/', function(req, res) {
+	res.render('index');
+});
+
+
 app.get('/api/teachers', function(req, res) {
-  Teacher.find().exec(function(err, teachers) {
+  Teachers.find().exec(function(err, data) {
   	if (err) {
   		res.status(500);
   		console.log(err);
   		res.end();
   	} else {
-  	  teachers.reverse();
+  	  data.reverse();
   	  res.status(200);
-  	  res.json(teachers);
+  	  res.json(data);
     }
   })
 });
@@ -62,7 +70,7 @@ app.get('/api/teachers', function(req, res) {
 
 app.get('/api/teachers/:id', function(req, res) {
   var id = req.param('id');
-  Teacher.findOne({"_id": id}).exec(function(err, data) {
+  Teachers.findOne({"_id": id}).exec(function(err, data) {
   	if (err) {
   		res.status(500);
   		console.log(err);
@@ -75,11 +83,11 @@ app.get('/api/teachers/:id', function(req, res) {
 });
 
 app.post('/api/teachers', function(req, res) {
-  var teacher = new Teacher({
+  var teacher = new Teachers({
   	name: req.body.name,
   	email: req.body.email
   });
-  teacher.save(function(err, data) {
+  teachers.save(function(err, data) {
   	if (err) {
   	  res.status(400);
   	  console.log(err);
@@ -88,12 +96,13 @@ app.post('/api/teachers', function(req, res) {
   	} 
   	res.status(201);
   	res.send(req.body);
+    res.end('Success');
   });
 });
 
 
 app.get('/api/students', function (req, res) {
-  Student.find().exec(function(err, data) {
+  Students.find().exec(function(err, data) {
   	if (err) {
   		res.status(500);
   		console.log(err);
@@ -109,7 +118,7 @@ app.get('/api/students', function (req, res) {
 
 app.get('/api/students/:id', function (req, res) {
   var id = req.param('id');
-  Student.findOne({"_id": id}).exec(function(err, data) {
+  Students.findOne({"_id": id}).exec(function(err, data) {
   	if (err) {
   		res.status(500);
   		console.log(err);
@@ -123,11 +132,11 @@ app.get('/api/students/:id', function (req, res) {
 
 
 app.post('/api/students', function (req, res) {
-  var student = new Student({
+  var students = new Students({
   	name: req.body.name,
     email: req.body.email
   });
-  student.save(function(err, data) {
+  students.save(function(err, data) {
   	if (err) {
   	  res.status(400);
   	  console.log(err);
@@ -136,6 +145,7 @@ app.post('/api/students', function (req, res) {
   	} 
   	res.status(201);
   	res.send(data);
+    res.end('Success');
   });
 });
 
@@ -184,8 +194,8 @@ app.post('/api/classes', function (req, res) {
   	} 
   	res.status(201);
   	res.send(data);
+    res.end('Success');
   });
 });
-
 
 
