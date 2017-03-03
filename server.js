@@ -83,7 +83,7 @@ app.get('/api/teachers/:id', function(req, res) {
 });
 
 app.post('/api/teachers', function(req, res) {
-  var teacher = new Teachers({
+  var teachers = new Teachers({
   	name: req.body.name,
   	email: req.body.email
   });

@@ -1,7 +1,6 @@
 <!doctype html>
 <html ng-app="app" >
   <head>
-    <script src="./server.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js" ></script>
   <script src="controller.js"></script>
   </head>
@@ -10,13 +9,33 @@
 
 <div ng-controller="ctrl" ng-view>
 
-Search Teacher Name: <input type="text" ng-model="teacher"><br>
-Search Student Name: <input type="text" ng-model="student"><br>
-Search Class Name: <input type="text" ng-model="course"><br>
-<br>
-Results: {{tester || student || course || db}}
+<button id="button" ng-click="getTeachers()">Get All Teachers</button><br><br>
+<button id="button" ng-click="getStudents()">Get All Students</button><br><br>
+<button id="button" ng-click="getClasses()">Get All Classes</button><br><br>
 
-<p ng-repeat></p>>
+<div ng-show="displayTeachers" class="hideByDefault">
+	<h3>Résultats:</h3>
+    <div ng-repeat="teacher in tester">
+    {{teacher.name + " - " + teacher.email}}
+    </div>
+</div>
+
+
+<div ng-show="displayStudents" class="hideByDefault">
+	<h3>Результаты:</h3>
+    <div ng-repeat="student in tester">
+    {{student.name + " - " + student.email}}
+    </div>
+</div>
+
+
+<div ng-show="displayClasses" class="hideByDefault">
+	<h3>结果:</h3>
+    <div ng-repeat="classes in tester">
+    {{classes.name + " - " + classes.code}}
+    </div>
+</div>
+
 
 </div>
 
