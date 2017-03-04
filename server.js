@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static('public'));
 
 
@@ -109,7 +110,7 @@ app.get('/api/students', function (req, res) {
   		res.end();
   	} else {
   	  data.reverse();
-  	  res.status(200);
+  	  res.status(201);
   	  res.json(data);
     }
   })
@@ -144,7 +145,7 @@ app.post('/api/students', function (req, res) {
   	  return;
   	} 
   	res.status(201);
-  	res.send(data);
+  	res.send(data.body);
     res.end('Success');
   });
 });

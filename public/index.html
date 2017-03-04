@@ -8,14 +8,41 @@
   <h1> Bienvenue à l'école! </h1>
 
 <div ng-controller="ctrl" ng-view>
+<div id="teachers">
+<button id="button" ng-click="getTeachers()">Get All Teachers</button>
+<button id="button" ng-click="showTeacherInput()">Add New Teacher</button>
+<div ng-show="addTeachersTable" class="hideByDefault">
+  <input type="text" ng-model="tName" placeholder="Teacher Name"></input>
+  <input type="text" ng-model="tEmail" placeholder="Teacher Email"></input>
+  <input type="submit" ng-click="addTeacher()"></input><br>
+</div>
+</div>
 
-<button id="button" ng-click="getTeachers()">Get All Teachers</button><br><br>
-<button id="button" ng-click="getStudents()">Get All Students</button><br><br>
-<button id="button" ng-click="getClasses()">Get All Classes</button><br><br>
+<br>
+<div id="students">
+<button id="button" ng-click="getStudents()">Get All Students</button>
+<button id="button" ng-click="showStudentInput()">Add New Student</button>
+<div ng-show="addStudentsTable" class="hideByDefault">
+  <input type="text" ng-model="sName" placeholder="Student Name"></input>
+  <input type="text" ng-model="sEmail" placeholder="Student Email"></input>
+  <input type="submit" ng-click="addStudent()"></input><br>
+</div>
+</div>
+<br>
+<div id="classes">
+<button id="button" ng-click="getClasses()">Get All Classes</button>
+<button id="button" ng-click="showClassInput()">Add New Class</button>
+<div ng-show="addClassesTable" class="hideByDefault">
+  <input type="text" ng-model="cName" placeholder="Class Name"></input>
+  <input type="text" ng-model="cCode" placeholder="Class Code"></input>
+  <input type="submit" ng-click="addClass()"></input><br>
+</div>
+</div>
+<br>
 
 Search by ID: 
 <input type="text" ng-model="searchS" ></input>
-<input type="submit" ng-click="searchById()"></input><br>
+<input type="submit" ng-click="searchById(searchS)"></input><br>
 {{data}}
 
 
